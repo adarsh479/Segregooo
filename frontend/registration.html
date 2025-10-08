@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
+    <link rel="stylesheet" href="public/css/registration.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Audiowide">
+</head>
+<body>
+    
+    <header>
+        <div class="logo-container">
+            <img src="public/images/logo_3-modified[1].png" alt="Company Logo" class="logo">
+            <h1 class="company-name"><b><u>S<i>egre</i>GO</u></b></h1>
+        </div>
+        <nav>
+            <ul>
+            <li><a class="tab" href="homepage.html">Home</a></li>
+            <li><a class="tab" href="aboutwaste.html">About</a></li>
+            <li><a class="tab" href="store.html">Store</a></li>
+            <li><a class="tab" href="#services">Registration</a></li>
+            <li><a class="tab" href="bot.html">AI Chatbot</a></li>
+            <li><a class="tab" href="Contact.html">Contact Us</a></li>
+            <li><a class="tab" href="teamPage.html">Our Team</a></li>
+            <li><a class="tab" href="econidhi.html">Eco Nidhi</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="container">
+        <div class="registration-box">
+            <h2>अपशिष्ट योद्धा पंजीकरण/Waste warrior Registration</h2>
+            <div class="form-group">
+                <label for="name">Full Name/पूरा नाम:</label>
+                <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+            </div>
+            
+           
+            <html lang="en">
+                <div class="form-group">
+                    <label for="gender">Gender/लिंग:</label>
+                    <select id="gender" name="gender" required>
+                        <option value="">Select gender</option>
+                        <option value="male">Male/पुरुष</option>
+                        <option value="female">Female/महिला</option>
+                        <option value="other">Other/अन्य</option>
+                    </select>
+                </div>
+                <html lang="en">
+                <form id="formID" method="post">
+                    <div class="form-group">
+                        <label for="aadhar">Aadhar Number/
+                            आधार नंबर:</label>
+                        <input type="text" id="aadhar" name="aadhar" maxlength="12" placeholder="Enter 12-digit Aadhar number" required>
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="mobile">Mobile Number/मोबाइल नंबर:</label>
+                        <input type="tel" id="mobile" name="mobile" maxlength="10" placeholder="Enter mobile number linked with Aadhar" required>
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="age">Age/आयु:</label>
+                        <input type="number" id="age" name="age" min="16" max="69" placeholder="Age (16-69 years)" required>
+                    </div>
+    
+                    <div class="note">
+                        <p>Note: Only individuals between 16 to 69 years of age can register</p>
+                    </div>
+    
+                    <button type="submit" id="buttonOnForm">Register</button>
+                </form>
+            </html>
+        </div>
+    </div>
+    <div class="waste-stats">
+        <h3>India's Annual Waste Statistics</h3>
+        <div class="stat-item">
+            <strong>Total Waste:</strong> 62 million tonnes
+        </div>
+        <div class="stat-item">
+            <strong>Hazardous Waste:</strong> 7.9 MT(million tonnes)
+        </div>
+        <div class="stat-item">
+            <strong>Plastic Waste:</strong> 5.6 MT(million tonnes)
+        </div>
+        <div class="stat-item">
+            <strong>E-waste:</strong> 1.5 MT(million tonnes)
+        </div>
+        <div class="stat-item">
+            <strong>Biomedical Waste:</strong> 0.17 MT(million tonnes)
+        </div>
+        <div class="stat-item">
+            <strong>Untreated Waste:</strong> ~50%
+        </div>
+    </div>
+    
+    <script>
+    document.getElementById("formID").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        
+        const formData = {
+    name: document.getElementById('name').value,
+    gender: document.getElementById('gender').value, // ✅ Store gender correctly
+    aadhar: document.getElementById('aadhar').value, // ✅ Store Aadhar correctly
+    phone: document.getElementById('mobile').value, // ✅ Keep phone number
+    age: document.getElementById('age').value // ✅ Store age
+};
+
+
+        try {
+    const response = await fetch('http://localhost:5000/api/users/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+    });
+
+    const result = await response.json(); // Get the actual error message
+
+    if (response.ok) {
+        alert('Registration successful!');
+        document.getElementById('formID').reset();
+    } else {
+        alert('Error: ' + result.message); // Show actual backend error
+    }
+} catch (error) {
+    alert('Network Error: ' + error.message);
+}
+    });
+    </script>
+</body>
+</html>

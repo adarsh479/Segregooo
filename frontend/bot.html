@@ -1,0 +1,80 @@
+<!-- filepath: /c:/protoType/frontend/bot.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SegreGO AI</title>
+  <link rel="stylesheet" href="public/css/bot.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Audiowide">
+</head>
+<body>
+
+  <header>
+    <div class="logo-container">
+      <img src="public/images/logo_3-modified[1].png" alt="Company Logo" class="logo">
+      <h1 class="company-name"><b><u>S<i>egre</i>GO</u></b></h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a class="tab" href="homepage.html">Home</a></li>
+        <li><a class="tab" href="aboutwaste.html">About</a></li>
+        <li><a class="tab" href="store.html">Store</a></li>
+        <li><a class="tab" href="registration.html">Registration</a></li>
+        <li><a class="tab" href="bot.html">AI Chatbot</a></li>
+        <li><a class="tab" href="Contact.html">Contact Us</a></li>
+        <li><a class="tab" href="teamPage.html">Our Team</a></li>
+        <li><a class="tab" href="econidhi.html">Eco Nidhi</a></li>
+      </ul>
+    </nav>
+  </header>
+  
+  <main class="container">
+    <section class="chat-section">
+      <h2>Welcome to SegreGO Chatbot</h2>
+      <div class="iframe-container">
+        <iframe src="https://cdn.botpress.cloud/webchat/v2.2/shareable.html?configUrl=https://files.bpcontent.cloud/2025/01/28/19/20250128191324-H2QU43FB.json"></iframe>
+      </div>
+    </section>
+
+    <section class="report-section">
+      <h2>Report Waste</h2>
+      <form id="wasteForm" enctype="multipart/form-data">
+        <label for="wasteImage">Upload Waste Image:</label>
+        <input type="file" id="wasteImage" name="wasteImage">
+        <label for="location">Enter Location:</label>
+        <input type="text" id="location" name="location" placeholder="Enter your location">
+        <button type="submit">Submit</button>
+      </form>
+    </section>
+  </main>
+
+  <script>
+   document.getElementById("wasteForm").addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const formData = new FormData();
+    formData.append("wasteImage", document.getElementById("wasteImage").files[0]);
+    formData.append("location", document.getElementById("location").value);
+
+    try {
+        const response = await fetch("http://localhost:5000/api/images/upload", {
+            method: "POST",
+            body: formData,
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        alert(data.message);
+    } catch (error) {
+        console.error("Error details:", error);
+        alert(`Failed to upload image: ${error.message}`);
+    }
+});
+
+  </script>
+</body>
+</html>

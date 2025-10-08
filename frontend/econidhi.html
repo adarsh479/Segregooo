@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donate for a Cleaner Tomorrow</title>
+    <link rel="stylesheet" href="public/css/econidhi.css">
+    <script src="econidhi.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Audiowide">
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+        <img src="public/images/logo_3-modified[1].png" alt="Company Logo" class="logo">
+        <h1 class="company-name"><b><u>S<i>egre</i>GO</u></b></h1>
+        </div>
+        <nav>
+        <ul>
+            <li><a class="tab" href="homepage.html">Home</a></li>
+            <li><a class="tab" href="aboutwaste.html">About</a></li>
+            <li><a class="tab" href="store.html">Store</a></li>
+            <li><a class="tab" href="registration.html">Registration</a></li>
+            <li><a class="tab" href="bot.html">AI Chatbot</a></li>
+            <li><a class="tab" href="Contact.html">Contact Us</a></li>
+            <li><a class="tab" href="teamPage.html">Our Team</a></li>
+            <li><a class="tab" href="econidhi.html">Eco Nidhi</a></li>
+        </ul>
+        </nav>
+    </header>
+    <br><br>
+
+    <section class="donation-info">
+        <h2>Why Donate?</h2><br>
+        <p>Your donation will help us provide waste segregation services, educate communities, and develop eco-friendly solutions.</p><br>
+        <ul>
+            <li><strong>₹1000</strong> - Provide waste segregation bins to local schools</li>
+            <li><strong>₹1500</strong> - Fund educational materials for recycling awareness</li>
+            <li><strong>₹2000</strong> - Support transportation for segregated waste collection</li>
+            <li><strong>₹3000</strong> - Sponsor a community-wide recycling initiative</li>
+        </ul>
+    </section>
+
+    <section class="impact">
+        <h2>Your Impact</h2><br>
+        <p>Imagine a cleaner, greener future with less waste going to landfills and more recycling happening in your community. Your donation brings us closer to that goal!</p>
+    </section>
+
+    <section class="donation-amounts">
+        <h2>Choose Your Donation Amount</h2>
+        <div class="amount-options">
+            <button onclick="setDonationAmount(1000)">₹1000</button>
+            <button onclick="setDonationAmount(1500)">₹1500</button>
+            <button onclick="setDonationAmount(2000)">₹2000</button>
+            <button onclick="setDonationAmount(3000)">₹3000</button>
+        </div>
+    </section>
+
+    <section class="donation-form">
+        <h2 class="style3">Donate Now</h2>
+        <form id="donationForm" onsubmit="submitDonation(event)">
+            <label for="name">Your Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Your Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="donationAmount">Donation : </label>
+            <input type="text" id="donationAmount" name="donationAmount" readonly>
+
+            <label for="mobileNumber">Mobile number:</label>
+            <input type="text" id="mobileNumber" name="mobileNumber" required>
+
+
+            <button type="submit">Donate</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>Thank you for your support! Together, we can make the world cleaner and greener.</p>
+        <p>Follow us: Facebook | Instagram | Twitter | LinkedIn</p>
+    </footer>
+
+    <script>
+        function setDonationAmount(amount) {
+            document.getElementById('donationAmount').value = amount;
+        }
+    
+        document.getElementById("donationForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+    
+            const formData = {
+                name: document.getElementById("name").value,
+                email: document.getElementById("email").value,
+                donationAmount: document.getElementById("donationAmount").value,
+                phone: document.getElementById("mobileNumber").value  // Fixed ID issue
+            };
+    
+            try {
+                const response = await fetch('http://localhost:5000/api/econidhi', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+    
+                if (response.ok) {
+                    alert('Donation request submitted successfully!');
+                    document.getElementById('donationForm').reset();
+                } else {
+                    const errorData = await response.json();
+                    throw new Error('Failed to submit donation request: ' + (errorData.message || response.statusText));
+                }
+            } catch (error) {
+                alert('Error submitting donation request: ' + error.message);
+                console.error("Error details:", error);
+            }
+        });
+    </script>
+    
+</body>
+</html>
